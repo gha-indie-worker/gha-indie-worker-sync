@@ -1,0 +1,16 @@
+    [package]
+    name = "gha-indie-worker-sync"
+    version = "0.1.0"
+    edition = "2021"
+    license = "MIT"
+    description = "opto-sync wrapper for GHA Indie Worker"
+    repository = "https://github.com/gha-indie-worker/gha-indie-worker-sync"
+
+    [dependencies]
+    serde = { version = "1", features = ["derive"] }
+    thiserror = "2"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+

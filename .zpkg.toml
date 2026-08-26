@@ -1,0 +1,4 @@
+name = "gha-indie-worker-sync"
+kind = "sync"
+version = "0.1.0"
+

@@ -1,0 +1,30 @@
+name: Source-free Oreslang runner admission only
+on:
+  push:
+    branches: [audit/oreslang-source-free-runner-20261031]
+  pull_request:
+    branches: [main]
+permissions: {}
+jobs:
+  source-free:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - name: Runner and step receipt (no checkout, no secrets)
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${RUNNER_OS}" = Linux
+          test -n "${GITHUB_SHA}"
+          test -n "${GITHUB_RUN_ATTEMPT}"
+          test ! -d .git
+          printf 'ACTUAL_RUNNER=%s SHA=%s ATTEMPT=%s\n' \
+            "${RUNNER_NAME}" "${GITHUB_SHA}" "${GITHUB_RUN_ATTEMPT}"
+      - name: Synthetic SHA-256 snapshot logic
+        shell: bash
+        run: |
+          set -euo pipefail
+          orig="$(printf '%s' '[packages.original]' | sha256sum | cut -d' ' -f1)"
+          edited="$(printf '%s' '[packages.foreign]' | sha256sum | cut -d' ' -f1)"
+          test "${orig}" != "${edited}"
+          printf '%s\n' 'SOURCE_FREE_SYNTHETIC_PASS'
